@@ -17,10 +17,6 @@ class DoctorProfile {
     required this.sessionDuration,
     required this.sessionPrice,
     required this.feedback,
-  });
-
-  //  void updateImage(String newImage) {
-  //   image = newImage;
-  // }
-
+      });
 }
+

@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({super.key});
-
+  const CustomAppBar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Align(
-        alignment: Alignment.topLeft,
-        child: IconButton(
+      child: AppBar(
+        backgroundColor: const Color(0xFF009688),
+        elevation: 0,
+        leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
       ),
     );
   }
-
+  
   @override
-  Size get preferredSize => const Size.fromHeight(0);
+  Size get preferredSize => const Size.fromHeight(56.0);
 }
