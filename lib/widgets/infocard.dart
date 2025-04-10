@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class InfoCard extends StatelessWidget {
-  final Widget content;
+  final dynamic content;
+
   const InfoCard({super.key, required this.content});
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,7 +22,7 @@ class InfoCard extends StatelessWidget {
           ),
         ],
       ),
-      child: content,
+      child: content is String ? Text(content) : content,
     );
   }
 }

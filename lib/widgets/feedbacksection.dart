@@ -1,65 +1,73 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_app/cubit/Feedbackcubit.dart';
-
 import 'package:grad_app/widgets/infocard.dart';
 
-class FeedbackSection extends StatefulWidget {
-  const FeedbackSection({super.key});
-  @override
-  // ignore: library_private_types_in_public_api
-  _FeedbackSectionState createState() => _FeedbackSectionState();
-}
-
-class _FeedbackSectionState extends State<FeedbackSection> {
-  final _formKey = GlobalKey<FormState>();
+class FeedbackSection extends StatelessWidget {
   final TextEditingController _controller = TextEditingController();
-  
+
+  FeedbackSection({super.key, required List<String> feedbackList});
+
   @override
   Widget build(BuildContext context) {
     return InfoCard(
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          BlocBuilder<FeedBackCubit, List<String>>(
+          
+          BlocBuilder<FeedBackCubit, List<Map<String, String>>>(
             builder: (context, feedbackList) {
-              return ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: feedbackList.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4.0),
-                    child: Text(feedbackList[index], style: TextStyle(fontSize: 14, color: Colors.grey[700])),
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: feedbackList.map((fb) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${fb['name']}', 
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: Colors.grey[700],
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        '  ${fb['message']}',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey[700],
+                        ),
+                      ),
+                      const Divider(
+                        color: Color.fromARGB(255, 136, 136, 136),
+                        thickness: 1,
+                      ),
+                      const SizedBox(height: 8),
+                    ],
                   );
-                },
+                }).toList(),
               );
             },
           ),
-          const SizedBox(height: 10),
-          Form(
-            key: _formKey,
-            child: TextFormField(
-              controller: _controller,
-              decoration: InputDecoration(
-                hintText: 'Add your Feedback',
-                hintStyle: TextStyle(fontSize: 14, color: Colors.grey[700]),
-                border: const OutlineInputBorder(borderSide: BorderSide.none),
+        
+          TextField(
+            controller: _controller,
+            decoration: InputDecoration(
+              hintText: 'Add your Feedback',
+              hintStyle: TextStyle(
+                fontSize: 14,
+                color: Colors.grey[700],
               ),
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return 'Feedback cannot be empty';
-                }
-                return null;
-              },
-              onFieldSubmitted: (value) {
-                if (_formKey.currentState!.validate()) {
-                  context.read<FeedBackCubit>().addFeedback(value.trim());
-                  _controller.clear();
-                }
-              },
+              border: InputBorder.none,
             ),
-          )
+            onSubmitted: (value) {
+              if (value.trim().isNotEmpty) {
+                context.read<FeedBackCubit>().addFeedback(value.trim()); 
+                _controller.clear(); 
+              }
+            },
+          ),
         ],
       ),
     );

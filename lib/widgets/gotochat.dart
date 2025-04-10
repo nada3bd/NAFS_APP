@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class GoToChatButton extends StatelessWidget {
   final String buttonText;
   final VoidCallback onPressed;
-
-  const GoToChatButton({super.key, required this.buttonText, required this.onPressed});
   
+  const GoToChatButton({super.key, required this.buttonText, required this.onPressed});
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
