@@ -6,8 +6,10 @@ class DoctorProfile {
   final String sessionDuration;
   final String sessionPrice;
   final String image;
+  final List<String> feedback;
 
   DoctorProfile({
+    required this.feedback,
     required this.image,
     required this.name,
     required this.rating,
@@ -20,5 +22,4 @@ class DoctorProfile {
   //  void updateImage(String newImage) {
   //   image = newImage;
   // }
-
 }
