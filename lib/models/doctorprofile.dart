@@ -5,7 +5,6 @@ class DoctorProfile {
   final String aboutMe;
   final String sessionDuration;
   final String sessionPrice;
-  final List<String> feedback;
   final String image;
 
   DoctorProfile({
@@ -16,7 +15,6 @@ class DoctorProfile {
     required this.aboutMe,
     required this.sessionDuration,
     required this.sessionPrice,
-    required this.feedback,
   });
 
   //  void updateImage(String newImage) {
