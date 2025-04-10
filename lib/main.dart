@@ -43,7 +43,7 @@ class NafsApp extends StatelessWidget {
           sessionDuration: '00 : 45 m',
           sessionPrice: '15.00 JD',
           feedback: [
-            'Great experience!',
+            'Great experience!' ,
             'Very professional.',
             'Helped me a lot with my anxiety.',
           ],
