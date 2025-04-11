@@ -18,8 +18,8 @@ class DoctorProfile {
     required this.sessionDuration,
     required this.sessionPrice,
   });
-
+ } 
   //  void updateImage(String newImage) {
   //   image = newImage;
   // }
-}
+  
