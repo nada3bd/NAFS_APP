@@ -1,4 +1,4 @@
-// ignore: file_names
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FeedBackCubit extends Cubit<List<Map<String, String>>> {

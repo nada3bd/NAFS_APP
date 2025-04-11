@@ -1,4 +1,3 @@
-// lib/views/doctor_profile_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_app/cubit/Feedbackcubit.dart';
@@ -6,7 +5,7 @@ import 'package:grad_app/cubit/chatcubit.dart';
 import 'package:grad_app/models/chatpage.dart';
 import 'package:grad_app/models/doctorprofile.dart';
 import 'package:grad_app/views/chatpage.dart';
-import 'package:grad_app/widgets/customappbar.dart';
+import 'package:grad_app/widgets/customsafearea.dart';
 import 'package:grad_app/widgets/doctorheader.dart';
 import 'package:grad_app/widgets/expandableaboutme.dart';
 import 'package:grad_app/widgets/feedbacksection.dart';
@@ -56,7 +55,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage>
       create: (_) => FeedBackCubit(initialFeedback: initialFeedback),
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: const CustomSafeArea(),
+        appBar: const CustomSafeArea( color: Colors.teal,),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
