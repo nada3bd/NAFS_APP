@@ -8,13 +8,9 @@ class CustomSafeArea extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: color,
-      body: SafeArea(
+      body: const SafeArea(
         child: Align(
           alignment: Alignment.topLeft,
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () => Navigator.pop(context),
-          ),
         ),
       ),
     );

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_app/cubit/Feedbackcubit.dart';
-import 'package:grad_app/cubit/chatcubit.dart';
-import 'package:grad_app/models/chatpage.dart';
+// import 'package:grad_app/cubit/chatcubit.dart';
+// import 'package:grad_app/models/chatpage.dart';
 import 'package:grad_app/models/doctorprofile.dart';
-import 'package:grad_app/views/chatpage.dart';
+// import 'package:grad_app/views/chatpage.dart';
+import 'package:grad_app/views/editprofilepage.dart';
 import 'package:grad_app/widgets/customsafearea.dart';
 import 'package:grad_app/widgets/doctorheader.dart';
 import 'package:grad_app/widgets/expandableaboutme.dart';
@@ -14,18 +15,17 @@ import 'package:grad_app/widgets/infocard.dart';
 import 'package:grad_app/widgets/sectiontitle.dart';
 import 'package:grad_app/widgets/sessionprice.dart';
 
-
-class DoctorProfilePage extends StatefulWidget {
+class DoctorInformationsPage extends StatefulWidget {
   final DoctorProfile doctorProfile;
 
-  const DoctorProfilePage({super.key, required this.doctorProfile});
+  const DoctorInformationsPage({super.key, required this.doctorProfile});
 
   @override
-  
-  _DoctorProfilePageState createState() => _DoctorProfilePageState();
+  // ignore: library_private_types_in_public_api
+  _DoctorInformationsPageState createState() => _DoctorInformationsPageState();
 }
 
-class _DoctorProfilePageState extends State<DoctorProfilePage>
+class _DoctorInformationsPageState extends State<DoctorInformationsPage>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _offsetAnimation;
@@ -55,7 +55,9 @@ class _DoctorProfilePageState extends State<DoctorProfilePage>
       create: (_) => FeedBackCubit(initialFeedback: initialFeedback),
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: const CustomSafeArea( color: Colors.teal,),
+        appBar: const CustomSafeArea(
+          color: Colors.teal,
+        ),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -89,22 +91,23 @@ class _DoctorProfilePageState extends State<DoctorProfilePage>
                 GoToChatButton(
                   buttonText: 'Go to Chat',
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => BlocProvider(
-                          create: (_) => ChatCubit(initialMessages: [
-                            ChatMessage(
-                                isDoctor: false,
-                                text: 'hi, can i book a session'),
-                            ChatMessage(
-                                isDoctor: true,
-                                text: 'hi, yes but first we need to'),
-                          ]),
-                          child: ChatPage(doctorProfile: widget.doctorProfile),
-                        ),
-                      ),
-                    );
+                    Navigator.push(context, MaterialPageRoute( builder: (context) => const  EditProfileScreen(accountType: 'patient',),));
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => BlocProvider(
+                    //       create: (_) => ChatCubit(initialMessages: [
+                    //         ChatMessage(
+                    //             isDoctor: false,
+                    //             text: 'hi, can i book a session'),
+                    //         ChatMessage(
+                    //             isDoctor: true,
+                    //             text: 'hi, yes but first we need to'),
+                    //       ]),
+                    //       child: ChatPage(doctorProfile: widget.doctorProfile),
+                    //     ),
+                    //   ),
+                    // );
                   },
                 ),
               ],
