@@ -1,3 +1,4 @@
+import 'package:duration_picker/duration_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_app/cubit/profilecubit.dart';
@@ -8,13 +9,14 @@ import 'package:intl/intl.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final String accountType;
-  const EditProfileScreen({Key? key, required this.accountType}) : super(key: key);
+  const EditProfileScreen({super.key, required this.accountType});
   @override
   _EditProfileScreenState createState() => _EditProfileScreenState();
 }
-  
+
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final ScrollController _scrollController = ScrollController();
+
   Future<void> _selectDate(BuildContext context, ProfileCubit cubit) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -24,9 +26,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(primary: Colors.teal, onPrimary: Colors.white, onSurface: Colors.teal, surface: Colors.white),
+            colorScheme: const ColorScheme.light(
+                primary: Colors.teal,
+                onPrimary: Colors.white,
+                onSurface: Colors.teal,
+                surface: Colors.white),
             dialogBackgroundColor: Colors.white,
-            textButtonTheme: TextButtonThemeData(style: TextButton.styleFrom(foregroundColor: Colors.teal)),
+            textButtonTheme: TextButtonThemeData(
+                style: TextButton.styleFrom(foregroundColor: Colors.teal)),
           ),
           child: child!,
         );
@@ -34,10 +41,32 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
     if (picked != null) cubit.updateDob(picked);
   }
+
   Future<void> _selectTime(BuildContext context, ProfileCubit cubit) async {
-    final TimeOfDay? picked = await showTimePicker(context: context, initialTime: TimeOfDay.now());
-    if (picked != null) cubit.updateSessionTime(picked.format(context));
+    final Duration? picked = await showDurationPicker(
+      context: context,
+      initialTime: const Duration(hours: 0, minutes: 0),
+    );
+
+    if (picked != null) {
+      final durationString = _formatDuration(picked);
+      cubit.updateSessionTime(durationString);
+    }
   }
+
+  String _formatDuration(Duration duration) {
+    final int hours = duration.inHours;
+    final int minutes = duration.inMinutes.remainder(60);
+
+    if (hours > 0 && minutes > 0) {
+      return '$hours hour(s) $minutes min';
+    } else if (hours > 0) {
+      return '$hours hour(s)';
+    } else {
+      return '$minutes min';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -75,8 +104,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             child: CircleAvatar(
                               radius: 50,
                               backgroundColor: Colors.teal,
-                              backgroundImage: state.profileImage != null ? FileImage(state.profileImage!) : null,
-                              child: state.profileImage == null ? const Icon(Icons.camera_alt, size: 40, color: Colors.black) : null,
+                              backgroundImage: state.profileImage != null
+                                  ? FileImage(state.profileImage!)
+                                  : null,
+                              child: state.profileImage == null
+                                  ? const Icon(Icons.camera_alt,
+                                      size: 40, color: Colors.black)
+                                  : null,
                             ),
                           ),
                         ),
@@ -146,15 +180,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       value: state.aboutMe,
                       icon: Icons.description,
                       onChanged: (v) => cubit.updateAbout(v),
-                      maxLines: 4,
+                      // maxLines: 4,
                       scrollController: _scrollController,
                     ),
                     CustomTextField(
                       label: "Session Time",
                       value: state.sessionTime,
-                      icon: Icons.access_time,
-                      onChanged: (_) {},
+                      icon: Icons.timer,
                       readOnly: true,
+                      onChanged: (_) {},
                       onTap: () => _selectTime(context, cubit),
                       scrollController: _scrollController,
                     ),
@@ -180,7 +214,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       backgroundColor: Colors.teal,
                       minimumSize: const Size(double.infinity, 50),
                     ),
-                    child: const Text('Save', style: TextStyle(color: Colors.white)),
+                    child: const Text('Save',
+                        style: TextStyle(color: Colors.white)),
                   ),
                 ],
               ),

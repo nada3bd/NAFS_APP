@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomTextField extends StatefulWidget {
   final String label;
@@ -12,7 +13,7 @@ class CustomTextField extends StatefulWidget {
   final DateTime? dateOfBirth;
   final ScrollController? scrollController;
   const CustomTextField({
-    Key? key,
+    super.key,
     required this.label,
     required this.value,
     required this.icon,
@@ -23,12 +24,13 @@ class CustomTextField extends StatefulWidget {
     this.isPatient = false,
     this.dateOfBirth,
     this.scrollController,
-  }) : super(key: key);
+  });
+
   @override
-  _CustomTextFieldState createState() => _CustomTextFieldState();
+  CustomTextFieldState createState() => CustomTextFieldState();
 }
 
-class _CustomTextFieldState extends State<CustomTextField> {
+class CustomTextFieldState extends State<CustomTextField> {
   late TextEditingController _controller;
   late FocusNode _focusNode;
   String? _errorText;
@@ -58,15 +60,25 @@ class _CustomTextFieldState extends State<CustomTextField> {
   }
 
   void _validate(String value) {
-    if (!widget.readOnly && value.trim().isEmpty) {
+    if (value.trim().isEmpty && widget.label == 'Session Time') {
       setState(() {
         _errorText = "This field is required";
+      });
+    } else if (widget.label.toLowerCase() == 'email' && !_isValidEmail(value)) {
+      setState(() {
+        _errorText = "Oops! Please enter a valid email address.";
       });
     } else {
       setState(() {
         _errorText = null;
       });
     }
+  }
+
+  bool _isValidEmail(String value) {
+    final emailRegex =
+        RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+    return emailRegex.hasMatch(value);
   }
 
   @override
@@ -111,8 +123,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   readOnly: widget.readOnly,
                   onTap: () {
                     if (widget.readOnly) {
-                      FocusScope.of(context)
-                          .requestFocus(FocusNode()); 
+                      FocusScope.of(context).requestFocus(FocusNode());
                     } else {
                       widget.onTap?.call();
                       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -126,6 +137,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     }
                   },
                   focusNode: _focusNode,
+                  inputFormatters: widget.label == "Price"
+                      ? [
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'^\d+(\.\d{0,2})?$')),
+                        ]
+                      : [],
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 18, horizontal: 16),
@@ -138,6 +155,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     ),
                     prefixIcon: Icon(widget.icon,
                         color: _focusNode.hasFocus ? Colors.teal : Colors.grey),
+                    suffixText: widget.label == "Price" ? " JD" : null,
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                           color: _errorText != null
@@ -164,25 +182,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 ),
             ],
           ),
-          if (widget.isPatient &&
-              widget.dateOfBirth != null &&
-              widget.label == 'Birthday')
-            Padding(
-              padding: const EdgeInsets.only(top: 6, left: 8),
-              child: Text('Age: ${calculateAge(widget.dateOfBirth!)} years',
-                  style: const TextStyle(color: Color.fromARGB(255, 3, 3, 3))),
-            ),
           const SizedBox(height: 16),
         ],
       ),
     );
   }
-}
 
-int calculateAge(DateTime dob) {
-  final today = DateTime.now();
-  int age = today.year - dob.year;
-  if (today.month < dob.month ||
-      (today.month == dob.month && today.day < dob.day)) age--;
-  return age;
+  void validateExternally() {
+    _validate(_controller.text);
+  }
 }

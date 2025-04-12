@@ -91,7 +91,7 @@ class _DoctorInformationsPageState extends State<DoctorInformationsPage>
                 GoToChatButton(
                   buttonText: 'Go to Chat',
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute( builder: (context) => const  EditProfileScreen(accountType: 'patient',),));
+                    Navigator.push(context, MaterialPageRoute( builder: (context) => const  EditProfileScreen(accountType: 'doctor',),));
                     // Navigator.push(
                     //   context,
                     //   MaterialPageRoute(
