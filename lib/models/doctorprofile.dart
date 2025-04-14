@@ -5,10 +5,12 @@ class DoctorProfile {
   final String aboutMe;
   final String sessionDuration;
   final String sessionPrice;
+  final String location;
   final String image;
   final List<String> feedback;
 
   DoctorProfile({
+    required this.location,
     required this.feedback,
     required this.image,
     required this.name,
@@ -18,7 +20,7 @@ class DoctorProfile {
     required this.sessionDuration,
     required this.sessionPrice,
   });
- } 
+} 
   //  void updateImage(String newImage) {
   //   image = newImage;
   // }

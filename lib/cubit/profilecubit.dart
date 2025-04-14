@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:grad_app/models/usermodel.dart';
+import 'package:grad_app/models/profilestate.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit() : super(ProfileState());
@@ -17,8 +17,23 @@ class ProfileCubit extends Cubit<ProfileState> {
   void updatePrice(String value) => emit(state.copyWith(price: value));
   void updateLocation(String value) => emit(state.copyWith(location: value));
   Future<void> pickProfileImage() async {
+  if (state.isPickingImage) return;
+
+  emit(state.copyWith(isPickingImage: true));
+  try {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) emit(state.copyWith(profileImage: File(pickedFile.path)));
+
+    if (pickedFile != null) {
+      emit(state.copyWith(profileImage: File(pickedFile.path)));
+    }
+  } catch (e) {
+    emit(state.copyWith(errormassage: " Image not uploaded successfully !"));
+  } finally {
+    emit(state.copyWith(isPickingImage: false));
   }
+}
+
+  void clearError() {}
+
 }

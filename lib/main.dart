@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
-import 'package:grad_app/cubit/Feedbackcubit.dart';
+import 'package:grad_app/cubit/feedbackcubit.dart';
 import 'package:grad_app/models/doctorprofile.dart';
 import 'package:grad_app/views/doctorinformationspage.dart';
 
@@ -30,8 +30,9 @@ class NafsApp extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: DoctorInformationsPage(
+        home: DoctorInformationsPage(
         doctorProfile: DoctorProfile(
+          location:'Amman',
           image: 'assets/WhatsApp Image 2025-02-03 at 17.52.32_ee5e3371.jpg',
           name: 'Dr. Ruba Abed',
           rating: 4,
@@ -47,3 +48,5 @@ class NafsApp extends StatelessWidget {
     );
   }
 }
+
+  

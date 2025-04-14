@@ -11,11 +11,10 @@ class ExpandableAboutMe extends StatefulWidget {
   });
 
   @override
-  // ignore: library_private_types_in_public_api
-  _ExpandableAboutMeState createState() => _ExpandableAboutMeState();
+  ExpandableAboutMeState createState() => ExpandableAboutMeState();
 }
 
-class _ExpandableAboutMeState extends State<ExpandableAboutMe> {
+class ExpandableAboutMeState extends State<ExpandableAboutMe> {
   bool _expanded = false;
 
   @override

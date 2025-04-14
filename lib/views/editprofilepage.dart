@@ -2,7 +2,7 @@ import 'package:duration_picker/duration_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_app/cubit/profilecubit.dart';
-import 'package:grad_app/models/usermodel.dart';
+import 'package:grad_app/models/profilestate.dart';
 import 'package:grad_app/widgets/customsafearea.dart';
 import 'package:grad_app/widgets/textfield.dart';
 import 'package:intl/intl.dart';
@@ -10,12 +10,13 @@ import 'package:intl/intl.dart';
 class EditProfileScreen extends StatefulWidget {
   final String accountType;
   const EditProfileScreen({super.key, required this.accountType});
+
   @override
-  _EditProfileScreenState createState() => _EditProfileScreenState();
+  EditProfileScreenState createState() => EditProfileScreenState();
 }
 
-class _EditProfileScreenState extends State<EditProfileScreen> {
-  final ScrollController _scrollController = ScrollController();
+class EditProfileScreenState extends State<EditProfileScreen> {
+  final ScrollController scrollController = ScrollController();
 
   Future<void> _selectDate(BuildContext context, ProfileCubit cubit) async {
     final DateTime? picked = await showDatePicker(
@@ -27,13 +28,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: const ColorScheme.light(
-                primary: Colors.teal,
-                onPrimary: Colors.white,
-                onSurface: Colors.teal,
-                surface: Colors.white),
+              primary: Colors.teal,
+              onPrimary: Colors.white,
+              onSurface: Colors.teal,
+              surface: Colors.white,
+            ),
             dialogBackgroundColor: Colors.white,
             textButtonTheme: TextButtonThemeData(
-                style: TextButton.styleFrom(foregroundColor: Colors.teal)),
+              style: TextButton.styleFrom(foregroundColor: Colors.teal),
+            ),
           ),
           child: child!,
         );
@@ -57,14 +60,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   String _formatDuration(Duration duration) {
     final int hours = duration.inHours;
     final int minutes = duration.inMinutes.remainder(60);
-
-    if (hours > 0 && minutes > 0) {
-      return '$hours hour(s) $minutes min';
-    } else if (hours > 0) {
-      return '$hours hour(s)';
-    } else {
-      return '$minutes min';
-    }
+    if (hours > 0 && minutes > 0) return '$hours hour(s) $minutes min';
+    if (hours > 0) return '$hours hour(s)';
+    return '$minutes min';
   }
 
   @override
@@ -80,7 +78,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             final isPatient = widget.accountType == 'patient';
             final isDoctor = widget.accountType == 'doctor';
             return SingleChildScrollView(
-              controller: _scrollController,
+              controller: scrollController,
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
@@ -100,17 +98,34 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         Align(
                           alignment: Alignment.center,
                           child: GestureDetector(
-                            onTap: () => cubit.pickProfileImage(),
-                            child: CircleAvatar(
-                              radius: 50,
-                              backgroundColor: Colors.teal,
-                              backgroundImage: state.profileImage != null
-                                  ? FileImage(state.profileImage!)
-                                  : null,
-                              child: state.profileImage == null
-                                  ? const Icon(Icons.camera_alt,
-                                      size: 40, color: Colors.black)
-                                  : null,
+                            onTap: state.isPickingImage
+                                ? null
+                                : () => cubit.pickProfileImage(),
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                CircleAvatar(
+                                  radius: 50,
+                                  backgroundColor: Colors.teal,
+                                  backgroundImage: state.profileImage != null
+                                      ? FileImage(state.profileImage!)
+                                      : null,
+                                  child: state.profileImage == null
+                                      ? const Icon(Icons.camera_alt,
+                                          size: 40, color: Colors.black)
+                                      : null,
+                                ),
+                                if (state.isPickingImage)
+                                  const SizedBox(
+                                    width: 24,
+                                    height: 24,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 3,
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          Colors.white),
+                                    ),
+                                  ),
+                              ],
                             ),
                           ),
                         ),
@@ -123,7 +138,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     value: state.name,
                     icon: Icons.person,
                     onChanged: (v) => cubit.updateName(v),
-                    scrollController: _scrollController,
+                    scrollController: scrollController,
                   ),
                   CustomTextField(
                     label: "Gender",
@@ -131,14 +146,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     icon: Icons.wc,
                     onChanged: (v) => cubit.updateGender(v),
                     readOnly: true,
-                    scrollController: _scrollController,
+                    scrollController: scrollController,
                   ),
                   CustomTextField(
                     label: "Email",
                     value: state.email,
                     icon: Icons.email,
                     onChanged: (v) => cubit.updateEmail(v),
-                    scrollController: _scrollController,
+                    scrollController: scrollController,
                   ),
                   CustomTextField(
                     label: "Birthday",
@@ -148,8 +163,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     readOnly: true,
                     onTap: () => _selectDate(context, cubit),
                     isPatient: isPatient,
-                    dateOfBirth: state.dob,
-                    scrollController: _scrollController,
+                    dateofbirth: state.dob,
+                    scrollController: scrollController,
                   ),
                   if (isPatient) ...[
                     CustomTextField(
@@ -157,21 +172,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       value: state.maritalStatus,
                       icon: Icons.favorite,
                       onChanged: (v) => cubit.updateMaritalStatus(v),
-                      scrollController: _scrollController,
+                      scrollController: scrollController,
                     ),
                     CustomTextField(
                       label: "Medical Conditions",
                       value: state.medicalConditions,
                       icon: Icons.healing,
                       onChanged: (v) => cubit.updateMedicalConditions(v),
-                      scrollController: _scrollController,
+                      scrollController: scrollController,
                     ),
                     CustomTextField(
                       label: "Education Level",
                       value: state.educationLevel,
                       icon: Icons.school,
                       onChanged: (v) => cubit.updateEducation(v),
-                      scrollController: _scrollController,
+                      scrollController: scrollController,
                     ),
                   ],
                   if (isDoctor) ...[
@@ -180,36 +195,36 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       value: state.aboutMe,
                       icon: Icons.description,
                       onChanged: (v) => cubit.updateAbout(v),
-                      // maxLines: 4,
-                      scrollController: _scrollController,
+                      scrollController: scrollController,
                     ),
                     CustomTextField(
                       label: "Session Time",
                       value: state.sessionTime,
                       icon: Icons.timer,
-                      readOnly: true,
                       onChanged: (_) {},
                       onTap: () => _selectTime(context, cubit),
-                      scrollController: _scrollController,
+                      scrollController: scrollController,
+                      readOnly: true,
                     ),
                     CustomTextField(
                       label: "Price",
                       value: state.price,
                       icon: Icons.attach_money,
                       onChanged: (v) => cubit.updatePrice(v),
-                      scrollController: _scrollController,
+                      scrollController: scrollController,
                     ),
                     CustomTextField(
                       label: "Location",
                       value: state.location,
                       icon: Icons.location_on,
                       onChanged: (v) => cubit.updateLocation(v),
-                      scrollController: _scrollController,
+                      scrollController: scrollController,
                     ),
                   ],
                   const SizedBox(height: 24),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.teal,
                       minimumSize: const Size(double.infinity, 50),

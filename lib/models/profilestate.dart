@@ -13,11 +13,15 @@ class ProfileState {
   final String sessionTime;
   final String price;
   final String location;
+  final bool isPickingImage;
+  final String? errormassage;
 
-  ProfileState({
-    this.name = 'Ahmad Ali',
-    this.email = 'ahmadali123@gmail.com',
-    this.gender = 'Male',
+  ProfileState( {
+    this.errormassage,
+    this.isPickingImage = false,
+    this.name = '',
+    this.email = '',
+    this.gender = '',
     DateTime? dob,
     this.profileImage,
     this.maritalStatus = '',
@@ -30,6 +34,7 @@ class ProfileState {
   }) : dob = dob ?? DateTime(2003, 3, 1);
 
   ProfileState copyWith({
+    String? errormassage,
     String? name,
     String? email,
     String? gender,
@@ -42,8 +47,10 @@ class ProfileState {
     String? sessionTime,
     String? price,
     String? location,
+    bool? isPickingImage,
   }) {
     return ProfileState(
+      errormassage: errormassage,
       name: name ?? this.name,
       email: email ?? this.email,
       gender: gender ?? this.gender,
@@ -56,6 +63,7 @@ class ProfileState {
       sessionTime: sessionTime ?? this.sessionTime,
       price: price ?? this.price,
       location: location ?? this.location,
+      isPickingImage: isPickingImage ?? this.isPickingImage,
     );
   }
 }

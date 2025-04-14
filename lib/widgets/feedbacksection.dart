@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grad_app/cubit/Feedbackcubit.dart';
+import 'package:grad_app/cubit/feedbackcubit.dart';
 import 'package:grad_app/widgets/infocard.dart';
 
 class FeedbackSection extends StatelessWidget {
