@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_app/cubit/postscubit.dart';
-
+import 'package:grad_app/widgets/appbaar.dart';
+import 'package:grad_app/widgets/themeforwritepost.dart';
 
 class WritePostPage extends StatefulWidget {
   const WritePostPage({super.key});
@@ -16,23 +17,13 @@ class _WritePostPageState extends State<WritePostPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Post')),
+      backgroundColor: Colors.white,
+      appBar: const CustomAppBar(title: "New Post"),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            const ListTile(
-              leading: CircleAvatar(child: Icon(Icons.person)),
-              title: Text('Dr.Nada Abu Al - Halaweh'),
-            ),
-            TextField(
-              controller: _controller,
-              maxLines: 6,
-              decoration: const InputDecoration(
-                hintText: 'What do you want to talk about?',
-                border: OutlineInputBorder(),
-              ),
-            ),
+            ThemeForWritePost(controller: _controller),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
@@ -49,3 +40,4 @@ class _WritePostPageState extends State<WritePostPage> {
     );
   }
 }
+

@@ -1,4 +1,6 @@
-import 'package:grad_app/views/editprofilepage.dart';
+import 'package:grad_app/cubit/chatcubit.dart';
+import 'package:grad_app/models/chatpage.dart';
+import 'package:grad_app/views/chatpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_app/cubit/feedbackcubit.dart';
@@ -87,34 +89,47 @@ class DoctorInformationsPageState extends State<DoctorInformationsPage>
                   location: widget.doctorProfile.location,
                 ),
                 const SizedBox(height: 30),
-                GoToChatButton(
-                  buttonText: 'Go to Chat',
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute( builder: (context) => const  EditProfileScreen(accountType: 'doctor',),));
-                    // Navigator.push(
-                    //   context,
-                      // MaterialPageRoute(
-                      //   builder: (context) => BlocProvider(
-                      //     create: (_) => ChatCubit(initialMessages: [
-                      //       ChatMessage(
-                      //           isDoctor: false,
-                      //           text: 'hi, can i book a session'),
-                      //       ChatMessage(
-                      //           isDoctor: true,
-                      //           text: 'hi, yes but first we need to'),
-                      //     ]),
-                      //     child: ChatPage(doctorProfile: widget.doctorProfile),
-                      //   ),
-                      // ),
-                    // );
-
-                  },
-                ),
+                GoToChat(widget: widget),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class GoToChat extends StatelessWidget {
+  const GoToChat({
+    super.key,
+    required this.widget,
+  });
+
+  final DoctorInformationsPage widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return GoToChatButton(
+      buttonText: 'Go to Chat',
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BlocProvider(
+              create: (_) => ChatCubit(initialMessages: [
+                ChatMessage(
+                    isDoctor: false,
+                    text: 'hi, can i book a session'),
+                ChatMessage(
+                    isDoctor: true,
+                    text: 'hi, yes but first we need to'),
+              ]),
+              child: ChatPage(doctorProfile: widget.doctorProfile),
+            ),
+          ),
+        );
+    
+      },
     );
   }
 }

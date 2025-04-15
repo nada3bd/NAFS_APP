@@ -6,7 +6,6 @@ import 'package:grad_app/views/writepostspage.dart';
 import 'package:grad_app/widgets/appbaar.dart';
 import 'package:grad_app/widgets/postscard.dart';
 
-
 class PostListPage extends StatelessWidget {
   final bool isDoctor;
 
@@ -25,12 +24,14 @@ class PostListPage extends StatelessWidget {
               return ListView(
                 padding: const EdgeInsets.only(bottom: 80),
                 children: state.posts
-                    .map((post) => PostCard(
-                          post: post,
-                          isDoctor: isDoctor,
-                          onDelete: () =>
-                              context.read<PostCubit>().deletePost(post.id),
-                        ))
+                    .map(
+                      (post) => PostCard(
+                        post: post,
+                        isDoctor: isDoctor,
+                        onDelete: () =>
+                            context.read<PostCubit>().deletePost(post.id),
+                      ),
+                    )
                     .toList(),
               );
             }
@@ -39,14 +40,17 @@ class PostListPage extends StatelessWidget {
         ),
       ),
       floatingActionButton: isDoctor
-          ? FloatingActionButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => const WritePostPage()));
-              },
-              child: const Icon(Icons.edit),
+          ? Padding(
+              padding: const EdgeInsets.only(bottom: 22, right: 14),
+              child: FloatingActionButton(
+                backgroundColor: Colors.teal,
+                foregroundColor: Colors.white,
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => const WritePostPage()));
+                },
+                child: const Icon(Icons.edit),
+              ),
             )
           : null,
     );
