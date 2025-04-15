@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
 import 'package:grad_app/cubit/feedbackcubit.dart';
-import 'package:grad_app/models/doctorprofile.dart';
-import 'package:grad_app/views/doctorinformationspage.dart';
+// import 'package:grad_app/models/doctorprofile.dart';
+// import 'package:grad_app/views/doctorinformationspage.dart';
+import 'package:grad_app/views/postslistpage.dart';
 
 void main() {
   runApp(
@@ -28,25 +29,29 @@ class NafsApp extends StatelessWidget {
       statusBarIconBrightness: Brightness.light,
     ));
 
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-        home: DoctorInformationsPage(
-        doctorProfile: DoctorProfile(
-          location:'Amman',
-          image: 'assets/WhatsApp Image 2025-02-03 at 17.52.32_ee5e3371.jpg',
-          name: 'Dr. Ruba Abed',
-          rating: 4,
-          avatarIcon: 'assets/doctor_avatar.png',
-          aboutMe:
-              'أخصائي نفسي يمتلك خبرة تزيد عن 10 سنوات في مجال العلاج النفسي، ويقدّم خدمات علاجية متخصصة في الاضطرابات النفسية المختلفة، ومشاكل العلاقات، والصدمات النفسية، بما في ذلك صدمات الطفولة. يهدف إلى مساعدة الأفراد على فهم أنفسهم بشكل أعمق، والتعامل مع تجاربهم المؤلمة، وتحقيق التوازن النفسي من خلال أساليب علاجية مبنية على أسس علمية ومهنية',
-          sessionDuration: '00 : 45 m',
-          sessionPrice: '15.00 JD',
-          feedback: ["good", "nice"],
-        ),
-      ),
-      
+        home: PostListPage(isDoctor:true),
+   
     );
   }
 }
+
+
+   //    DoctorInformationsPage(
+      //   doctorProfile: DoctorProfile(
+      //     location:'Amman',
+      //     image: 'assets/WhatsApp Image 2025-02-03 at 17.52.32_ee5e3371.jpg',
+      //     name: 'Dr. Ruba Abed',
+      //     rating: 4,
+      //     avatarIcon: 'assets/doctor_avatar.png',
+      //     aboutMe:
+      //         'أخصائي نفسي يمتلك خبرة تزيد عن 10 سنوات في مجال العلاج النفسي، ويقدّم خدمات علاجية متخصصة في الاضطرابات النفسية المختلفة، ومشاكل العلاقات، والصدمات النفسية، بما في ذلك صدمات الطفولة. يهدف إلى مساعدة الأفراد على فهم أنفسهم بشكل أعمق، والتعامل مع تجاربهم المؤلمة، وتحقيق التوازن النفسي من خلال أساليب علاجية مبنية على أسس علمية ومهنية',
+      //     sessionDuration: '00 : 45 m',
+      //     sessionPrice: '15.00 JD',
+      //     feedback: ["good", "nice"],
+      //   ),
+      // ),
+      
 
   

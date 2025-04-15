@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 
+
 class InfoCard extends StatelessWidget {
   final dynamic content;
+  final  Color? color ;
 
-  const InfoCard({super.key, required this.content});
+  const InfoCard({super.key, required this.content ,  this.color});
 
   @override
   Widget build(BuildContext context) {
     return Container(
+     
       width: double.infinity,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.grey[200],
+        color: color ??   Colors.grey[200],
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(

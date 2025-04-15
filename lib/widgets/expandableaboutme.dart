@@ -7,7 +7,7 @@ class ExpandableAboutMe extends StatefulWidget {
   const ExpandableAboutMe({
     super.key,
     required this.text,
-    this.maxLines = 3,
+    this.maxLines = 3, Color? color,
   });
 
   @override
