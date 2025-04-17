@@ -178,7 +178,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                   ],
                   const SizedBox(height: 24),
-                  ActionButton( value: 'Save'),
+                  ActionButton( value: 'Save',),
                 ],
               ),
             );
