@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_app/cubit/postscubit.dart';
+import 'package:grad_app/widgets/actionbutton.dart';
 import 'package:grad_app/widgets/appbaar.dart';
 import 'package:grad_app/widgets/themeforwritepost.dart';
 
@@ -32,7 +33,7 @@ class _WritePostPageState extends State<WritePostPage> {
                   Navigator.pop(context);
                 }
               },
-              child: const Text('Publish'),
+              child:  ActionButton( value: 'Publish'),
             ),
           ],
         ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_app/cubit/profilecubit.dart';
 import 'package:grad_app/models/profilestate.dart';
+import 'package:grad_app/widgets/actionbutton.dart';
 import 'package:grad_app/widgets/customsafearea.dart';
 import 'package:grad_app/widgets/profileimageheader.dart';
 import 'package:grad_app/widgets/textfield.dart';
@@ -83,7 +84,10 @@ class EditProfileScreenState extends State<EditProfileScreen> {
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  ProfileImageHeader(cubit: cubit , state: state,),
+                  ProfileImageHeader(
+                    cubit: cubit,
+                    state: state,
+                  ),
                   const SizedBox(height: 16),
                   CustomTextField(
                     label: "Full Name",
@@ -174,16 +178,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                   ],
                   const SizedBox(height: 24),
-                  ElevatedButton(
-                    onPressed: () {
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.teal,
-                      minimumSize: const Size(double.infinity, 50),
-                    ),
-                    child: const Text('Save',
-                        style: TextStyle(color: Colors.white)),
-                  ),
+                  ActionButton( value: 'Save'),
                 ],
               ),
             );
