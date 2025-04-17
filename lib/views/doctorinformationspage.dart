@@ -1,6 +1,4 @@
-import 'package:grad_app/cubit/chatcubit.dart';
-import 'package:grad_app/models/chatpage.dart';
-import 'package:grad_app/views/chatpage.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_app/cubit/feedbackcubit.dart';
@@ -9,7 +7,7 @@ import 'package:grad_app/widgets/customsafearea.dart';
 import 'package:grad_app/widgets/doctorheader.dart';
 import 'package:grad_app/widgets/expandableaboutme.dart';
 import 'package:grad_app/widgets/feedbacksection.dart';
-import 'package:grad_app/widgets/gotochat.dart';
+import 'package:grad_app/widgets/openchatbutton.dart';
 import 'package:grad_app/widgets/infocard.dart';
 import 'package:grad_app/widgets/sectiontitle.dart';
 import 'package:grad_app/widgets/sessionprice.dart';
@@ -89,7 +87,7 @@ class DoctorInformationsPageState extends State<DoctorInformationsPage>
                   location: widget.doctorProfile.location,
                 ),
                 const SizedBox(height: 30),
-                GoToChat(widget: widget),
+                OpenChatButton(widget: widget),
               ],
             ),
           ),
@@ -98,40 +96,4 @@ class DoctorInformationsPageState extends State<DoctorInformationsPage>
     );
   }
 }
-
-class GoToChat extends StatelessWidget {
-  const GoToChat({
-    super.key,
-    required this.widget,
-  });
-
-  final DoctorInformationsPage widget;
-
-  @override
-  Widget build(BuildContext context) {
-    return GoToChatButton(
-      buttonText: 'Go to Chat',
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => BlocProvider(
-              create: (_) => ChatCubit(initialMessages: [
-                ChatMessage(
-                    isDoctor: false,
-                    text: 'hi, can i book a session'),
-                ChatMessage(
-                    isDoctor: true,
-                    text: 'hi, yes but first we need to'),
-              ]),
-              child: ChatPage(doctorProfile: widget.doctorProfile),
-            ),
-          ),
-        );
-    
-      },
-    );
-  }
-}
-
 

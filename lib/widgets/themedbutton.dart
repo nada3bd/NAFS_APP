@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
-class GoToChatButton extends StatelessWidget {
+class ThemedButton extends StatelessWidget {
   final String buttonText;
   final VoidCallback onPressed;
-  
-  const GoToChatButton({super.key, required this.buttonText, required this.onPressed});
+
+  const ThemedButton(
+      {super.key, required this.buttonText, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,8 @@ class GoToChatButton extends StatelessWidget {
         elevation: 5,
         splashFactory: InkSplash.splashFactory,
       ),
-      child: Text(buttonText, style: const TextStyle(fontSize: 16, color: Colors.white)),
+      child: Text(buttonText,
+          style: const TextStyle(fontSize: 16, color: Colors.white)),
     );
   }
 }
