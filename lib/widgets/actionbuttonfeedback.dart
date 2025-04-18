@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:another_flushbar/flushbar.dart';
 
 class ActionButtonFeedback {
-  static void show(
+
+  static void validatePost(
     BuildContext context, {
     required String currentText,
     required bool isEdit,
@@ -32,37 +33,12 @@ class ActionButtonFeedback {
       return;
     }
 
-    if (context.mounted) {
-      Flushbar(
-        messageText: Row(
-          children: [
-            const Icon(Icons.check_circle_outline, color: Colors.green),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                isEdit
-                    ? "Post updated successfully"
-                    : "Post published successfully",
-                style: const TextStyle(color: Colors.black),
-              ),
-            ),
-          ],
-        ),
-        backgroundColor: Colors.white,
-        duration: const Duration(seconds: 2),
-        margin: const EdgeInsets.all(12),
-        borderRadius: BorderRadius.circular(12),
-        flushbarPosition: FlushbarPosition.TOP,
-        leftBarIndicatorColor: Colors.green,
-        onStatusChanged: (status) {
-          if (status == FlushbarStatus.DISMISSED && context.mounted) {
-            onSuccess();
-          }
-        },
-      ).show(context);
-    }
+    _showSuccessFlush(
+      context,
+      message: isEdit ? "Post updated successfully" : "Post published successfully",
+      onDismissed: onSuccess,
+    );
   }
-
   static void _showFlush(
     BuildContext context, {
     required String message,
@@ -75,8 +51,11 @@ class ActionButtonFeedback {
           Icon(icon, color: color),
           const SizedBox(width: 12),
           Expanded(
-              child:
-                  Text(message, style: const TextStyle(color: Colors.black))),
+            child: Text(
+              message,
+              style: const TextStyle(color: Colors.black),
+            ),
+          ),
         ],
       ),
       backgroundColor: Colors.white,
@@ -85,6 +64,37 @@ class ActionButtonFeedback {
       borderRadius: BorderRadius.circular(12),
       flushbarPosition: FlushbarPosition.TOP,
       leftBarIndicatorColor: color,
+    ).show(context);
+  }
+  static void _showSuccessFlush(
+    BuildContext context, {
+    required String message,
+    required VoidCallback onDismissed,
+  }) {
+    Flushbar(
+      messageText: Row(
+        children: [
+          const Icon(Icons.check_circle_outline, color: Colors.green),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              message,
+              style: const TextStyle(color: Colors.black),
+            ),
+          ),
+        ],
+      ),
+      backgroundColor: Colors.white,
+      duration: const Duration(seconds: 2),
+      margin: const EdgeInsets.all(12),
+      borderRadius: BorderRadius.circular(12),
+      flushbarPosition: FlushbarPosition.TOP,
+      leftBarIndicatorColor: Colors.green,
+      onStatusChanged: (status) {
+        if (status == FlushbarStatus.DISMISSED && context.mounted) {
+          onDismissed();
+        }
+      },
     ).show(context);
   }
 }

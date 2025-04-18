@@ -37,7 +37,7 @@ class EditPostPageState extends State<EditPostPage> {
       backgroundColor: Colors.white,
       appBar: const CustomAppBar(title: 'Edit Post'),
       body: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20 , top: 20),
+        padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
             return SingleChildScrollView(
@@ -48,14 +48,19 @@ class EditPostPageState extends State<EditPostPage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       const SizedBox(height: 8),
-                      ThemeWriteEditPost(controller: controller, isEdit: true),
+                      ThemeWriteEditPost(
+                        controller: controller,
+                        isEdit: true,
+                        authorName: widget.post.author,
+                        authorImage: widget.post.image,
+                      ),
                       const Spacer(),
                       const SizedBox(height: 20),
                       ActionButton(
                         value: 'Save Changes',
                         controller: controller,
                         onPressed: () {
-                          ActionButtonFeedback.show(
+                          ActionButtonFeedback.validatePost(
                             context,
                             currentText: controller.text,
                             isEdit: true,

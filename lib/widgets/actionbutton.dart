@@ -1,3 +1,4 @@
+// تعديل على: widgets/actionbutton.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_app/cubit/postscubit.dart';
@@ -7,7 +8,7 @@ class ActionButton extends StatelessWidget {
   final TextEditingController? controller;
   final VoidCallback? onPressed;
 
-   ActionButton({
+ ActionButton({
     super.key,
     required this.value,
     this.controller,

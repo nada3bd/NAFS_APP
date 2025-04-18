@@ -30,29 +30,34 @@ class WritePostPageState extends State<WritePostPage> {
                 constraints: BoxConstraints(minHeight: constraints.maxHeight),
                 child: IntrinsicHeight(
                   child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        ThemeWriteEditPost(controller: controller),
-                        const Spacer(),
-                        ActionButton(
-                          value: 'Publish',
-                          controller: controller,
-                          onPressed: () {
-                            ActionButtonFeedback.show(
-                              context,
-                              currentText: controller.text,
-                              isEdit: false,
-                              onSuccess: () {
-                                context
-                                    .read<PostCubit>()
-                                    .addPost(controller.text.trim());
-                                Navigator.pop(context);
-                              },
-                            );
-                          },
-                        ),
-                        const SizedBox(height: 20),
-                      ]),
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      ThemeWriteEditPost(
+                        controller: controller,
+                        authorName: 'Dr.Nada Abu Al - Halaweh',
+                        authorImage: 'assets/WhatsApp Image 2025-02-03 at 17.52.32_ee5e3371.jpg',
+                      ),
+                      const Spacer(),
+                      ActionButton(
+                        value: 'Publish',
+                        controller: controller,
+                        onPressed: () {
+                          ActionButtonFeedback.validatePost(
+                            context,
+                            currentText: controller.text,
+                            isEdit: false,
+                            onSuccess: () {
+                              context
+                                  .read<PostCubit>()
+                                  .addPost(controller.text.trim());
+                              Navigator.pop(context);
+                            },
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
                 ),
               ),
             );

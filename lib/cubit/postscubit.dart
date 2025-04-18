@@ -44,6 +44,11 @@ class PostCubit extends Cubit<PostState> {
     ];
     emit(PostLoaded(posts));
   }
+  // void loadPostsFromBackend(List<PostModel> dataFromApi) {
+//   posts = dataFromApi;
+//   emit(PostLoaded(posts));
+// }
+
 
   void addPost(String content) {
     posts.add(

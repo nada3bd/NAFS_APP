@@ -24,7 +24,7 @@ class InfoCard extends StatelessWidget {
             offset: const Offset(2, 2),
           ),
         ],
-      ),
+      ), 
       child: content is String ? Text(content) : content,
     );
   }

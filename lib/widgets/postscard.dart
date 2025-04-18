@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_app/cubit/postscubit.dart';
 import 'package:grad_app/models/postsmodel.dart';
+import 'package:grad_app/utils/calculateLinecount.dart';
 import 'package:grad_app/views/editpostpage.dart';
 import 'package:grad_app/widgets/expandableaboutme.dart';
 import 'package:grad_app/widgets/infocard.dart';
@@ -22,6 +23,14 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final lineCount = calculateLineCount(
+  post.content,
+  const TextStyle(fontSize: 14),
+  MediaQuery.of(context).size.width - 64,
+);
+
+final maxLines = lineCount >= 11 ? 10: lineCount + 2;
+
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       elevation: 4,
@@ -58,13 +67,13 @@ class PostCard extends StatelessWidget {
                         color: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
-                          side: const BorderSide(color: Colors.teal), 
+                          side: const BorderSide(color: Colors.teal),
                         ),
-                       
-                      ),
+            ),
                     ),
                     child: PopupMenuButton<String>(
-                      constraints: const BoxConstraints.expand(width:62, height:100),
+                      constraints:
+                          const BoxConstraints.expand(width: 62, height: 100),
                       icon: const Icon(
                         Icons.more_vert,
                         size: 22,
@@ -87,8 +96,19 @@ class PostCard extends StatelessWidget {
                       },
                       itemBuilder: (context) => [
                         const PopupMenuItem(
-                            value: 'delete', child: Text('Delete'  ,style: TextStyle(fontSize: 10 , color: Colors.teal,))),
-                        const PopupMenuItem(value: 'edit', child: Text('Edit' , style: TextStyle(fontSize:10  , color: Colors.teal))),
+                            value: 'delete',
+                            child: Text('Delete',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: Colors.teal,
+                                ))),
+                        const PopupMenuItem(
+                          value: 'edit',
+                          child: Text(
+                            'Edit',
+                            style: TextStyle(fontSize: 10, color: Colors.teal),
+                          ),
+                        ),
                       ],
                     ),
                   )
@@ -99,7 +119,7 @@ class PostCard extends StatelessWidget {
               color: const Color.fromARGB(255, 251, 251, 251),
               content: ExpandableAboutMe(
                 text: post.content,
-                maxLines: 3,
+                maxLines: maxLines,
               ),
             ),
           ],

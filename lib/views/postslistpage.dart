@@ -42,21 +42,25 @@ class PostListPage extends StatelessWidget {
       floatingActionButton: isDoctor
           ? Padding(
               padding: const EdgeInsets.only(bottom: 22, right: 14),
-              child: FloatingActionButton(
-                backgroundColor: Colors.teal,
-                foregroundColor: Colors.white,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => BlocProvider(
-                        create: (_) => PostCubit(),
-                        child: const WritePostPage(),
-                      ),
-                    ),
+              child: Builder(
+                builder: (context) {
+                  return FloatingActionButton(
+                    backgroundColor: Colors.teal,
+                    foregroundColor: Colors.white,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BlocProvider.value(
+                            value: BlocProvider.of<PostCubit>(context),
+                            child: const WritePostPage(),
+                          ),
+                        ),
+                      );
+                    },
+                    child: const Icon(Icons.edit),
                   );
                 },
-                child: const Icon(Icons.edit),
               ),
             )
           : null,
