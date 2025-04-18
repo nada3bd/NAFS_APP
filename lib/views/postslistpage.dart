@@ -46,8 +46,15 @@ class PostListPage extends StatelessWidget {
                 backgroundColor: Colors.teal,
                 foregroundColor: Colors.white,
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => const WritePostPage()));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BlocProvider(
+                        create: (_) => PostCubit(),
+                        child: const WritePostPage(),
+                      ),
+                    ),
+                  );
                 },
                 child: const Icon(Icons.edit),
               ),

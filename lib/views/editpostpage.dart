@@ -4,6 +4,7 @@ import 'package:grad_app/cubit/postscubit.dart';
 import 'package:grad_app/models/postsmodel.dart';
 import 'package:grad_app/widgets/actionbutton.dart';
 import 'package:grad_app/widgets/appbaar.dart';
+import 'package:grad_app/widgets/actionbuttonfeedback.dart';
 import 'package:grad_app/widgets/themewriteeditpost.dart';
 
 class EditPostPage extends StatefulWidget {
@@ -36,7 +37,7 @@ class EditPostPageState extends State<EditPostPage> {
       backgroundColor: Colors.white,
       appBar: const CustomAppBar(title: 'Edit Post'),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.only(left: 20, right: 20 , top: 20),
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
             return SingleChildScrollView(
@@ -54,26 +55,17 @@ class EditPostPageState extends State<EditPostPage> {
                         value: 'Save Changes',
                         controller: controller,
                         onPressed: () {
-                          final newContent = controller.text.trim();
-                          final oldContent = widget.post.content.trim();
-                          if (newContent.isEmpty) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text("Post cannot be empty")),
-                            );
-                            return;
-                          }
-                          if (newContent == oldContent) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text("No changes were made")),
-                            );
-                            return;
-                          }
-                          context
-                              .read<PostCubit>()
-                              .editPost(widget.post.id, newContent);
-                          Navigator.pop(context);
+                          ActionButtonFeedback.show(
+                            context,
+                            currentText: controller.text,
+                            isEdit: true,
+                            originalText: widget.post.content,
+                            onSuccess: () {
+                              context.read<PostCubit>().editPost(
+                                  widget.post.id, controller.text.trim());
+                              Navigator.pop(context);
+                            },
+                          );
                         },
                       ),
                       const SizedBox(height: 20),

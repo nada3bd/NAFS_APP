@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_app/cubit/postscubit.dart';
 import 'package:grad_app/widgets/actionbutton.dart';
 import 'package:grad_app/widgets/appbaar.dart';
+import 'package:grad_app/widgets/actionbuttonfeedback.dart';
 import 'package:grad_app/widgets/themewriteeditpost.dart';
 
 class WritePostPage extends StatefulWidget {
@@ -21,7 +22,7 @@ class WritePostPageState extends State<WritePostPage> {
       backgroundColor: Colors.white,
       appBar: const CustomAppBar(title: "New Post"),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
             return SingleChildScrollView(
@@ -29,30 +30,29 @@ class WritePostPageState extends State<WritePostPage> {
                 constraints: BoxConstraints(minHeight: constraints.maxHeight),
                 child: IntrinsicHeight(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children:[
-                    ThemeWriteEditPost(controller: controller),
-                    const Spacer(),
-                    ActionButton(
-                      value: 'Publish',
-                      controller: controller,
-                      onPressed: () {
-                        final text = controller.text.trim();
-
-                        if (text.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text("Post cannot be empty")),
-                          );
-                          return;
-                        }
-
-                        context.read<PostCubit>().addPost(text);
-
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ]),
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        ThemeWriteEditPost(controller: controller),
+                        const Spacer(),
+                        ActionButton(
+                          value: 'Publish',
+                          controller: controller,
+                          onPressed: () {
+                            ActionButtonFeedback.show(
+                              context,
+                              currentText: controller.text,
+                              isEdit: false,
+                              onSuccess: () {
+                                context
+                                    .read<PostCubit>()
+                                    .addPost(controller.text.trim());
+                                Navigator.pop(context);
+                              },
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 20),
+                      ]),
                 ),
               ),
             );

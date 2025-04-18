@@ -31,7 +31,7 @@ class NafsApp extends StatelessWidget {
 
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-        home: PostListPage(isDoctor:true),
+        home: PostListPage(isDoctor: true,),
    
     );
   }
