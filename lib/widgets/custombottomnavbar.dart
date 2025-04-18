@@ -7,15 +7,39 @@ class CustomBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      currentIndex: selectedIndex,
-      selectedItemColor: Theme.of(context).primaryColor,
-      unselectedItemColor: Colors.grey,
-      items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-        BottomNavigationBarItem(icon: Icon(Icons.notes), label: ''),
-        BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
-      ],
+    final theme = Theme.of(context);
+    final isLight = theme.brightness == Brightness.light;
+    final backgroundColor =
+        isLight ?  Colors.grey[200] : theme.colorScheme.surface;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        border: const Border(
+          top: BorderSide(color: Colors.grey, width: 1),
+        ),
+      ),
+      child: BottomNavigationBar(
+        currentIndex: selectedIndex,
+        selectedItemColor: theme.primaryColor,
+        unselectedItemColor: Colors.grey,
+        backgroundColor: backgroundColor,
+        elevation: 3,
+        items: const [
+          BottomNavigationBarItem(icon: Padding(
+            padding: EdgeInsets.only( top:8.0),
+            child: Icon(Icons.home),
+          ), label: ''),
+          BottomNavigationBarItem(icon: Padding(
+            padding: EdgeInsets.only( top:8.0),
+            child: Icon(Icons.chat),
+          ), label: ''),
+          BottomNavigationBarItem(icon: Padding(
+            padding: EdgeInsets.only( top:8.0),
+            child: Icon(Icons.person),
+          ), label: ''),
+        ],
+      ),
     );
   }
 }
