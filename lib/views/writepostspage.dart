@@ -22,7 +22,7 @@ class WritePostPageState extends State<WritePostPage> {
       backgroundColor: Colors.white,
       appBar: const CustomAppBar(title: "New Post"),
       body: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
+        padding: const EdgeInsets.only(left: 16, right: 16 ),
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
             return SingleChildScrollView(

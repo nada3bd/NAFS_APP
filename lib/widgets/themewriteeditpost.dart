@@ -24,54 +24,60 @@ class ThemeWriteEditPost extends StatelessWidget {
           selectionHandleColor: Colors.teal,
         ),
       ),
-      child: Padding(
-        padding: const EdgeInsets.only(top: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                CircleAvatar(
-                  radius: 16,
-                  backgroundColor: Colors.teal,
-                  backgroundImage: authorImage.isNotEmpty ? AssetImage(authorImage) : null,
-                  child: authorImage.isEmpty
-                      ? const Icon(Icons.person, color: Colors.white)
-                      : null,
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    authorName,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+      child: Card(
+        margin: const EdgeInsets.only( top :40 ,  bottom: 16),
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      color: Colors.grey[200],
+        child: Padding(
+          padding: const EdgeInsets.all( 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  CircleAvatar(
+                    radius: 16,
+                    backgroundColor: Colors.teal,
+                    backgroundImage: authorImage.isNotEmpty ? AssetImage(authorImage) : null,
+                    child: authorImage.isEmpty
+                        ? const Icon(Icons.person, color: Colors.white)
+                        : null,
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Material(
-              color: Colors.grey[100],
-              elevation: 6,
-              borderRadius: BorderRadius.circular(16),
-              shadowColor: Colors.grey,
-              child: TextField(
-                controller: controller,
-                minLines: 6,
-                maxLines: isEdit ? null : null,
-                decoration: InputDecoration(
-                  hintText: 'What do you want to talk about?',
-                  hintStyle: TextStyle(color: Colors.grey[400], fontSize: 14),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      authorName,
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                    ),
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.teal),
-                    borderRadius: BorderRadius.circular(16),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Material(
+                color: Colors.grey[50],
+                elevation: 6,
+                borderRadius: BorderRadius.circular(16),
+                shadowColor: Colors.grey,
+                child: TextField(
+                  controller: controller,
+                  minLines:20,
+                  maxLines: isEdit ? null : null,
+                  decoration: InputDecoration(
+                    hintText: 'What do you want to talk about?',
+                    hintStyle: TextStyle(color: Colors.grey[400], fontSize: 14),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.teal),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
