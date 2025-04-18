@@ -48,9 +48,25 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Future<void> _selectTime(BuildContext context, ProfileCubit cubit) async {
-    final Duration? picked = await showDurationPicker(
+    final Duration? picked = await showDialog<Duration>(
       context: context,
-      initialTime: const Duration(hours: 0, minutes: 0),
+      builder: (context) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: Colors.teal,
+              surface: Color(0xFFF5F5F5),
+              onSurface: Colors.black,
+            ),
+            timePickerTheme: const TimePickerThemeData(
+              backgroundColor: Color(0xFFF5F5F5),
+            ),
+          ),
+          child: const DurationPickerDialog(
+            initialTime: Duration(hours: 0, minutes: 0),
+          ),
+        );
+      },
     );
 
     if (picked != null) {
@@ -72,7 +88,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     return BlocProvider(
       create: (_) => ProfileCubit(),
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: const CustomSafeArea(color: Colors.teal),
         body: BlocBuilder<ProfileCubit, ProfileState>(
           builder: (context, state) {
@@ -178,7 +194,9 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                   ],
                   const SizedBox(height: 24),
-                  ActionButton( value: 'Save',),
+                  ActionButton(
+                    value: 'Save',
+                  ),
                 ],
               ),
             );
@@ -188,4 +206,3 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 }
-

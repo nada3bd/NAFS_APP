@@ -12,6 +12,7 @@ class CustomTextField extends StatefulWidget {
   final bool isPatient;
   final DateTime? dateofbirth;
   final ScrollController? scrollController;
+
   const CustomTextField({
     super.key,
     required this.label,
@@ -55,17 +56,17 @@ class CustomTextFieldState extends State<CustomTextField> {
   @override
   void dispose() {
     controller.dispose();
-    focusNode.dispose();   
+    focusNode.dispose();
     super.dispose();
   }
 
   void validate(String value) {
-    if (value.trim().isEmpty ||
-        (value.trim().isEmpty )) {
+    if (value.trim().isEmpty) {
       setState(() {
         errorText = "This field is required";
       });
-    } else if (widget.label.toLowerCase() == 'email' && !_isValidEmail(value)) {
+    } else if (widget.label.toLowerCase() == 'email' &&
+        !_isValidEmail(value)) {
       setState(() {
         errorText = "Oops! Please enter a valid email address.";
       });
@@ -77,15 +78,17 @@ class CustomTextFieldState extends State<CustomTextField> {
   }
 
   bool _isValidEmail(String value) {
-    final emailRegex =
-        RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\$');
+    final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
     return emailRegex.hasMatch(value);
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Theme(
-      data: Theme.of(context).copyWith(
+      data: theme.copyWith(
         textSelectionTheme: const TextSelectionThemeData(
           selectionColor: Color(0xFFEEEEEE),
           cursorColor: Colors.black,
@@ -99,17 +102,21 @@ class CustomTextFieldState extends State<CustomTextField> {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.8),
-                      blurRadius: 6,
-                      offset: const Offset(0, 3),
+                      color: Colors.black12,
+                      blurRadius: 4,
+                      offset: Offset(0, 2),
                     ),
                   ],
                   borderRadius: BorderRadius.circular(12),
-                  color: Colors.white,
+                  color: theme.brightness == Brightness.light
+                      ? const Color(0xFFF5F5F5) 
+                      : colorScheme.surface, 
                 ),
-                child: (widget.readOnly && widget.label != "Gender" && widget.label != "Birthday")
+                child: (widget.readOnly &&
+                        widget.label != "Gender" &&
+                        widget.label != "Birthday")
                     ? InkWell(
                         onTap: widget.onTap,
                         child: InputDecorator(
@@ -118,17 +125,18 @@ class CustomTextFieldState extends State<CustomTextField> {
                                 vertical: 18, horizontal: 16),
                             labelText: widget.label,
                             labelStyle: TextStyle(
-                              color: Colors.grey[700],
+                              color: theme.hintColor,
                               fontSize: 14,
                             ),
-                            prefixIcon: Icon(widget.icon, color: Colors.grey),
+                            prefixIcon:
+                                Icon(widget.icon, color: theme.hintColor),
                             suffixText:
                                 widget.label == "Price" ? " JD" : null,
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                   color: errorText != null
                                       ? Colors.red
-                                      : const Color.fromRGBO(97, 97, 97, 1)),
+                                      : theme.dividerColor),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -141,14 +149,12 @@ class CustomTextFieldState extends State<CustomTextField> {
                           child: Padding(
                             padding: const EdgeInsets.only(top: 6),
                             child: Text(
-                              controller.text.isEmpty
-                                  ? ''
-                                  : controller.text,
+                              controller.text.isEmpty ? '' : controller.text,
                               style: TextStyle(
                                 fontSize: 16,
                                 color: controller.text.isEmpty
-                                    ? Colors.grey
-                                    : Colors.black,
+                                    ? theme.hintColor
+                                    : theme.textTheme.bodyMedium!.color,
                               ),
                             ),
                           ),
@@ -156,6 +162,7 @@ class CustomTextFieldState extends State<CustomTextField> {
                       )
                     : TextField(
                         controller: controller,
+                        cursorColor: Colors.black,
                         onEditingComplete: () {
                           widget.onChanged?.call(controller.text);
                           validate(controller.text);
@@ -183,10 +190,15 @@ class CustomTextFieldState extends State<CustomTextField> {
                           }
                         },
                         focusNode: focusNode,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: theme.textTheme.bodyMedium!.color,
+                        ),
                         inputFormatters: widget.label == "Price"
                             ? [
                                 FilteringTextInputFormatter.allow(
-                                    RegExp(r'^\d+(\.\d{0,2})?\$')),
+                                  RegExp(r'^\d+(\.\d{0,2})?$'),
+                                ),
                               ]
                             : [],
                         decoration: InputDecoration(
@@ -196,24 +208,30 @@ class CustomTextFieldState extends State<CustomTextField> {
                           labelStyle: TextStyle(
                             color: focusNode.hasFocus
                                 ? Colors.teal
-                                : const Color.fromRGBO(97, 97, 97, 1),
+                                : theme.hintColor,
                             fontSize: 14,
                           ),
-                          prefixIcon: Icon(widget.icon,
-                              color:
-                                  focusNode.hasFocus ? Colors.teal : Colors.grey),
+                          prefixIcon: Icon(
+                            widget.icon,
+                            color: focusNode.hasFocus
+                                ? Colors.teal
+                                : theme.hintColor,
+                          ),
                           suffixText:
                               widget.label == "Price" ? " JD" : null,
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                                color: errorText != null
-                                    ? Colors.red
-                                    : const Color.fromRGBO(97, 97, 97, 1)),
+                              color: errorText != null
+                                  ? Colors.red
+                                  : theme.dividerColor,
+                            ),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                                color:
-                                    errorText != null ? Colors.red : Colors.teal),
+                              color: errorText != null
+                                  ? Colors.red
+                                  : Colors.teal,
+                            ),
                           ),
                         ),
                       ),
@@ -225,7 +243,10 @@ class CustomTextFieldState extends State<CustomTextField> {
                   right: 16,
                   child: Text(
                     errorText!,
-                    style: const TextStyle(color: Colors.red, fontSize: 12),
+                    style: TextStyle(
+                      color: theme.colorScheme.error,
+                      fontSize: 12,
+                    ),
                     textAlign: TextAlign.left,
                   ),
                 ),
