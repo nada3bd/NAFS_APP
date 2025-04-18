@@ -30,7 +30,7 @@ class ThemeWriteEditPost extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       color: Colors.grey[200],
         child: Padding(
-          padding: const EdgeInsets.all( 12),
+          padding: const EdgeInsets.only( top : 12 , bottom:20, left: 12, right: 12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -61,7 +61,7 @@ class ThemeWriteEditPost extends StatelessWidget {
                 shadowColor: Colors.grey,
                 child: TextField(
                   controller: controller,
-                  minLines:20,
+                  minLines:15,
                   maxLines: isEdit ? null : null,
                   decoration: InputDecoration(
                     hintText: 'What do you want to talk about?',

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_app/cubit/postscubit.dart';
 import 'package:grad_app/widgets/actionbutton.dart';
-import 'package:grad_app/widgets/appbaar.dart';
 import 'package:grad_app/widgets/actionbuttonfeedback.dart';
+import 'package:grad_app/widgets/custompostappbar.dart';
 import 'package:grad_app/widgets/themewriteeditpost.dart';
 
 class WritePostPage extends StatefulWidget {
@@ -20,7 +20,7 @@ class WritePostPageState extends State<WritePostPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const CustomAppBar(title: "New Post"),
+      appBar:const  CustomPostAppBar(title: 'New Post' ),
       body: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16 ),
         child: LayoutBuilder(

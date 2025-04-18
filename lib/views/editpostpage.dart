@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_app/cubit/postscubit.dart';
 import 'package:grad_app/models/postsmodel.dart';
 import 'package:grad_app/widgets/actionbutton.dart';
-import 'package:grad_app/widgets/appbaar.dart';
 import 'package:grad_app/widgets/actionbuttonfeedback.dart';
+import 'package:grad_app/widgets/custompostappbar.dart';
 import 'package:grad_app/widgets/themewriteeditpost.dart';
 
 class EditPostPage extends StatefulWidget {
@@ -35,7 +35,7 @@ class EditPostPageState extends State<EditPostPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const CustomAppBar(title: 'Edit Post'),
+      appBar: const CustomPostAppBar(title: 'Edit Post'),
       body: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16 ),
         child: LayoutBuilder(

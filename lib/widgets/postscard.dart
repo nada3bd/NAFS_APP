@@ -29,7 +29,7 @@ class PostCard extends StatelessWidget {
   MediaQuery.of(context).size.width - 64,
 );
 
-final maxLines = lineCount >= 11 ? 10: lineCount + 2;
+final maxLines = lineCount >= 11 ? 10: lineCount ;
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
