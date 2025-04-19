@@ -1,4 +1,3 @@
-// تعديل على: widgets/actionbutton.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_app/cubit/postscubit.dart';
@@ -8,7 +7,7 @@ class ActionButton extends StatelessWidget {
   final TextEditingController? controller;
   final VoidCallback? onPressed;
 
- ActionButton({
+  ActionButton({
     super.key,
     required this.value,
     this.controller,
@@ -25,13 +24,14 @@ class ActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
-      onPressed: onPressed ?? () {
-        final text = controller?.text.trim() ?? '';
-        if (value == 'Publish' && text.isNotEmpty) {
-          context.read<PostCubit>().addPost(text);
-          Navigator.pop(context);
-        }
-      },
+      onPressed: onPressed ??
+          () {
+            final text = controller?.text.trim() ?? '';
+            if (value == 'Publish' && text.isNotEmpty) {
+              context.read<PostCubit>().addPost(text);
+              Navigator.pop(context);
+            }
+          },
       icon: Icon(actionIcons[value] ?? Icons.help_outline, color: Colors.white),
       label: Text(value, style: const TextStyle(color: Colors.white)),
       style: ElevatedButton.styleFrom(
