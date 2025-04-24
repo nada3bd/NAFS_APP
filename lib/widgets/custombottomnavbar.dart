@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grad_app/views/chatlistpage.dart';
+import 'package:grad_app/views/postslistpage.dart';
 import 'package:grad_app/views/profile.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
@@ -38,7 +37,7 @@ class CustomBottomNavBar extends StatelessWidget {
                Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const ChatListPage(isDoctor: true,), 
+                          builder: (context) => const  PostListPage(isDoctor: false,), //ChatListPage(isDoctor: true,), 
                         ),
                       );
               break;

@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 
 class CustomtoAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
+  final bool showBackButton;
 
-  const CustomtoAppBar({super.key, required this.title});
+  const CustomtoAppBar({
+    super.key,
+    required this.title,
+    this.showBackButton = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +47,12 @@ class CustomtoAppBar extends StatelessWidget implements PreferredSizeWidget {
               children: [
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.black),
-                    onPressed: () => Navigator.pop(context),
-                  ),
+                  child: showBackButton
+                      ? IconButton(
+                          icon: const Icon(Icons.arrow_back, color: Colors.black),
+                          onPressed: () => Navigator.pop(context),
+                        )
+                      : const SizedBox(),
                 ),
                 Center(
                   child: Text(

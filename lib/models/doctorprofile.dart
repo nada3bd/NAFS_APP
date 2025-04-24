@@ -18,7 +18,7 @@ class DoctorProfile {
     required this.avatarIcon,
     required this.aboutMe,
     required this.sessionDuration,
-    required this.sessionPrice,
+    required this.sessionPrice, required String specialization,
   });
 } 
   //  void updateImage(String newImage) {

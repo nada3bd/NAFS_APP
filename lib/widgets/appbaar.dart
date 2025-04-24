@@ -21,10 +21,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0, 
       leading: leading ??
           IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            icon: const Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () => Navigator.pop(context),
           ),
-      title: Text(title, style: const TextStyle(color: Colors.white)),
+      title: Text(title, style: const TextStyle(color: Colors.black)),
       actions: actions,
     );
   }

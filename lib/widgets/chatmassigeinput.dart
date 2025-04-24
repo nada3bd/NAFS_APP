@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_app/cubit/chatcubit.dart';
+import 'package:grad_app/utils/pickandsendimage.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ChatMessageInput extends StatelessWidget {
   final TextEditingController controller;
   final ScrollController scrollController;
+  final bool isDoctor;
 
   const ChatMessageInput({
     super.key,
     required this.controller,
     required this.scrollController,
+    required this.isDoctor
   });
 
   void _sendMessage(BuildContext context) {
@@ -33,7 +37,8 @@ class ChatMessageInput extends StatelessWidget {
             child: TextField(
               controller: controller,
               decoration: InputDecoration(
-                contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                 hintText: 'Type a message',
                 filled: true,
                 fillColor: Colors.white,
@@ -54,6 +59,31 @@ class ChatMessageInput extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.camera_alt, color: Colors.teal),
             onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (_) => Wrap(
+                  children: [
+                    ListTile(
+                      leading: const Icon(Icons.photo_library),
+                      title: const Text('اختر من المعرض'),
+                      onTap: () async {
+                        Navigator.pop(context);
+                        await pickAndSendImage(
+                            ImageSource.gallery, context, isDoctor);
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.camera_alt),
+                      title: const Text('التقط صورة'),
+                      onTap: () async {
+                        Navigator.pop(context);
+                        await pickAndSendImage(
+                            ImageSource.camera, context, isDoctor);
+                      },
+                    ),
+                  ],
+                ),
+              );
             },
           ),
           const SizedBox(width: 3),

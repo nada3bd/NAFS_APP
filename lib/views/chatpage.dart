@@ -12,7 +12,6 @@ import 'package:grad_app/widgets/newchat.dart';
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key, required this.doctorProfile});
   final DoctorProfile doctorProfile;
-
   @override
   State<ChatPage> createState() => _ChatPageState();
 }
@@ -22,10 +21,13 @@ class _ChatPageState extends State<ChatPage> {
   final ScrollController _scrollController = ScrollController();
   bool _showNewMsgIndicator = false;
   int _prevMessageCount = 0;
+  late final bool isDoctor;
+
 
   @override
   void initState() {
     super.initState();
+    isDoctor = false;
     _scrollController.addListener(() {
       if (_scrollController.offset >= _scrollController.position.maxScrollExtent - 20) {
         if (_showNewMsgIndicator) {
@@ -98,6 +100,7 @@ class _ChatPageState extends State<ChatPage> {
                 ChatMessageInput(
                   controller: _messageController,
                   scrollController: _scrollController,
+                  isDoctor : isDoctor ,
                 ),
               ],
             ),
