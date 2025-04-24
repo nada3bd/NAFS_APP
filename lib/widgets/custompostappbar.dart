@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class CustomPostAppBar extends StatelessWidget implements PreferredSizeWidget {
+class CustomtoAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
 
-  const CustomPostAppBar({super.key, required this.title});
+  const CustomtoAppBar({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,6 @@ class CustomPostAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
         ),
-
         SafeArea(
           child: Container(
             height: preferredSize.height,

@@ -35,9 +35,9 @@ class EditPostPageState extends State<EditPostPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const CustomPostAppBar(title: 'Edit Post'),
+      appBar: const CustomtoAppBar(title: 'Edit Post'),
       body: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16 ),
+        padding: const EdgeInsets.only(left: 16, right: 16),
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
             return SingleChildScrollView(

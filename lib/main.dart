@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grad_app/cubit/chatlistcubit.dart';
 import 'package:grad_app/cubit/feedbackcubit.dart';
 import 'package:grad_app/cubit/postscubit.dart';
 import 'package:grad_app/cubit/themecubit.dart';
-import 'package:grad_app/views/profile.dart';
+import 'package:grad_app/views/chatlistpage.dart';
 
 void main() {
   runApp(
@@ -18,6 +19,7 @@ void main() {
         BlocProvider<ThemeCubit>(
           create: (_) => ThemeCubit(),
         ),
+         BlocProvider(create: (_) => ChatListCubit()),
       ],
       child: const NafsApp(),
     ),
@@ -34,7 +36,7 @@ class NafsApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: currentTheme,
-          home: const UserProfileScreen(),
+          home: const ChatListPage(isDoctor: true,),
         );
       },
     );

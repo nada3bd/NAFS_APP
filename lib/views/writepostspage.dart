@@ -20,9 +20,9 @@ class WritePostPageState extends State<WritePostPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar:const  CustomPostAppBar(title: 'New Post' ),
+      appBar: const CustomtoAppBar(title: 'New Post'),
       body: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16 ),
+        padding: const EdgeInsets.only(left: 16, right: 16),
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
             return SingleChildScrollView(
@@ -35,7 +35,8 @@ class WritePostPageState extends State<WritePostPage> {
                       ThemeWriteEditPost(
                         controller: controller,
                         authorName: 'Dr.Nada Abu Al - Halaweh',
-                        authorImage: 'assets/WhatsApp Image 2025-02-03 at 17.52.32_ee5e3371.jpg',
+                        authorImage:
+                            'assets/WhatsApp Image 2025-02-03 at 17.52.32_ee5e3371.jpg',
                       ),
                       const Spacer(),
                       ActionButton(
