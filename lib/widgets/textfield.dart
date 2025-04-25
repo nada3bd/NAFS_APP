@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 class CustomTextField extends StatefulWidget {
   final String label;
-  final String value;
+  final String? value;
   final IconData icon;
   final Function(String)? onChanged;
   final int maxLines;
@@ -19,7 +19,7 @@ class CustomTextField extends StatefulWidget {
   const CustomTextField({
     super.key,
     required this.label,
-    required this.value,
+    this.value,
     required this.icon,
     required this.onChanged,
     this.maxLines = 1,
@@ -42,29 +42,32 @@ class CustomTextFieldState extends State<CustomTextField> {
   String? errorText;
   bool _obscureText = true; 
 
-  @override
-  void initState() {
-    super.initState();
-    controller = TextEditingController(text: widget.value);
-    focusNode = FocusNode();
-  }
 
   @override
-  void didUpdateWidget(covariant CustomTextField oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.value != controller.text) {
-      controller.text = widget.value;
-      controller.selection =
-          TextSelection.collapsed(offset: controller.text.length);
-    }
-  }
+void initState() {
+  super.initState();
+  controller = widget.controller ?? TextEditingController(text: widget.value ?? '');
+  focusNode = FocusNode();
+}
 
-  @override
-  void dispose() {
+@override
+void didUpdateWidget(covariant CustomTextField oldWidget) {
+  super.didUpdateWidget(oldWidget);
+  if (widget.controller == null && widget.value != controller.text) {
+    controller.text = widget.value ?? '';
+    controller.selection = TextSelection.collapsed(offset: controller.text.length);
+  }
+}
+
+@override
+void dispose() {
+  if (widget.controller == null) {
     controller.dispose();
-    focusNode.dispose();
-    super.dispose();
   }
+  focusNode.dispose();
+  super.dispose();
+}
+
 
   void validate(String value) {
     if (value.trim().isEmpty) {

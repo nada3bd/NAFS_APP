@@ -4,7 +4,7 @@ class ProfileState {
   final String name;
   final String email;
   final String gender;
-  final DateTime dob;
+  final DateTime? dob;
   final File? profileImage;
   final String maritalStatus;
   final String medicalConditions;
@@ -15,14 +15,15 @@ class ProfileState {
   final String location;
   final bool isPickingImage;
   final String? errormassage;
+  final String accountType;
+  final bool acceptTerms;
+  final File? certificate;
 
-  ProfileState( {
-    this.errormassage,
-    this.isPickingImage = false,
+  ProfileState({
     this.name = '',
     this.email = '',
     this.gender = '',
-    DateTime? dob,
+    this.dob, 
     this.profileImage,
     this.maritalStatus = '',
     this.medicalConditions = '',
@@ -31,10 +32,14 @@ class ProfileState {
     this.sessionTime = '',
     this.price = '',
     this.location = '',
-  }) : dob = dob ?? DateTime(2003, 3, 1);
+    this.isPickingImage = false,
+    this.errormassage,
+    this.accountType = '',
+    this.acceptTerms = false,
+    this.certificate,
+  });
 
   ProfileState copyWith({
-    String? errormassage,
     String? name,
     String? email,
     String? gender,
@@ -48,9 +53,12 @@ class ProfileState {
     String? price,
     String? location,
     bool? isPickingImage,
+    String? errormassage,
+    String? accountType,
+    bool? acceptTerms,
+    File? certificate,
   }) {
     return ProfileState(
-      errormassage: errormassage,
       name: name ?? this.name,
       email: email ?? this.email,
       gender: gender ?? this.gender,
@@ -64,6 +72,10 @@ class ProfileState {
       price: price ?? this.price,
       location: location ?? this.location,
       isPickingImage: isPickingImage ?? this.isPickingImage,
+      errormassage: errormassage ?? this.errormassage,
+      accountType: accountType ?? this.accountType,
+      acceptTerms: acceptTerms ?? this.acceptTerms,
+      certificate: certificate ?? this.certificate,
     );
   }
 }

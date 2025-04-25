@@ -5,6 +5,7 @@ import 'package:grad_app/models/profilestate.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit() : super(ProfileState());
+  
   void updateName(String value) => emit(state.copyWith(name: value));
   void updateEmail(String value) => emit(state.copyWith(email: value));
   void updateGender(String value) => emit(state.copyWith(gender: value));
@@ -16,24 +17,34 @@ class ProfileCubit extends Cubit<ProfileState> {
   void updateSessionTime(String value) => emit(state.copyWith(sessionTime: value));
   void updatePrice(String value) => emit(state.copyWith(price: value));
   void updateLocation(String value) => emit(state.copyWith(location: value));
+
   Future<void> pickProfileImage() async {
-  if (state.isPickingImage) return;
+    if (state.isPickingImage) return;
 
-  emit(state.copyWith(isPickingImage: true));
-  try {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    emit(state.copyWith(isPickingImage: true));
+    try {
+      final picker = ImagePicker();
+      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-    if (pickedFile != null) {
-      emit(state.copyWith(profileImage: File(pickedFile.path)));
+      if (pickedFile != null) {
+        emit(state.copyWith(profileImage: File(pickedFile.path)));
+      }
+    } catch (e) {
+      emit(state.copyWith(errormassage: "Image not uploaded successfully!"));
+    } finally {
+      emit(state.copyWith(isPickingImage: false));
     }
-  } catch (e) {
-    emit(state.copyWith(errormassage: " Image not uploaded successfully !"));
-  } finally {
-    emit(state.copyWith(isPickingImage: false));
   }
-}
 
-  void clearError() {}
+    void clearError() {
+    emit(state.copyWith(errormassage: null)); 
+  }
+
+
+  void updateAccountType(String value) => emit(state.copyWith(accountType: value));
+
+  void toggleAcceptTerms() => emit(state.copyWith(acceptTerms: !state.acceptTerms));
+
+  void updateCertificate(File certificate) => emit(state.copyWith(certificate: certificate));
 
 }

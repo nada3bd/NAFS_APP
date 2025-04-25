@@ -129,7 +129,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                   CustomTextField(
                     label: "Birthday",
-                    value: DateFormat('yyyy-MM-dd').format(state.dob),
+                    value: state.dob == null ? '' : DateFormat('yyyy-MM-dd').format(state.dob!),
                     icon: Icons.calendar_today,
                     onChanged: (_) {},
                     readOnly: true,

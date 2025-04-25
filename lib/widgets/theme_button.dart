@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ThemedButton extends StatelessWidget {
   final String buttonText;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   const ThemedButton(
       {super.key, required this.buttonText, required this.onPressed});
