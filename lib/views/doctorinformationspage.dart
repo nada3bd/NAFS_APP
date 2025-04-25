@@ -10,7 +10,7 @@ import 'package:grad_app/widgets/feedbacksection.dart';
 import 'package:grad_app/widgets/openchatbutton.dart';
 import 'package:grad_app/widgets/infocard.dart';
 import 'package:grad_app/widgets/sectiontitle.dart';
-import 'package:grad_app/widgets/sessionprice.dart';
+import 'package:grad_app/widgets/sessions.dart';
 
 class DoctorInformationsPage extends StatefulWidget {
   final DoctorProfile doctorProfile;

@@ -56,7 +56,7 @@ class CustomtoAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 Center(
                   child: Text(
-                    title,
+                    title ,
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,

@@ -1,4 +1,5 @@
-import 'package:grad_app/core/api/auth/auth.dart';
+
+import 'package:grad_app/core/auth/auth.dart';
 
 class AuthService {
   static late final AuthService instance;

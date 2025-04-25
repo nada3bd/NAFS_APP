@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_app/cubit/postscubit.dart';
 import 'package:grad_app/widgets/actionbutton.dart';
 import 'package:grad_app/widgets/actionbuttonfeedback.dart';
-import 'package:grad_app/widgets/custompostappbar.dart';
+import 'package:grad_app/widgets/customtoappbar.dart';
 import 'package:grad_app/widgets/themewriteeditpost.dart';
 
 class WritePostPage extends StatefulWidget {

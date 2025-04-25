@@ -12,6 +12,9 @@ class CustomTextField extends StatefulWidget {
   final bool isPatient;
   final DateTime? dateofbirth;
   final ScrollController? scrollController;
+  final bool isPassword;
+  final TextEditingController? controller;
+
 
   const CustomTextField({
     super.key,
@@ -25,6 +28,8 @@ class CustomTextField extends StatefulWidget {
     this.isPatient = false,
     this.dateofbirth,
     this.scrollController,
+    this.isPassword = false, 
+    this.controller, 
   });
 
   @override
@@ -35,6 +40,7 @@ class CustomTextFieldState extends State<CustomTextField> {
   late TextEditingController controller;
   late FocusNode focusNode;
   String? errorText;
+  bool _obscureText = true; 
 
   @override
   void initState() {
@@ -78,7 +84,8 @@ class CustomTextFieldState extends State<CustomTextField> {
   }
 
   bool _isValidEmail(String value) {
-    final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+    final emailRegex =
+        RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
     return emailRegex.hasMatch(value);
   }
 
@@ -111,130 +118,82 @@ class CustomTextFieldState extends State<CustomTextField> {
                   ],
                   borderRadius: BorderRadius.circular(12),
                   color: theme.brightness == Brightness.light
-                      ? const Color(0xFFF5F5F5) 
-                      : colorScheme.surface, 
+                      ? const Color(0xFFF5F5F5)
+                      : colorScheme.surface,
                 ),
-                child: (widget.readOnly &&
-                        widget.label != "Gender" &&
-                        widget.label != "Birthday")
-                    ? InkWell(
-                        onTap: widget.onTap,
-                        child: InputDecorator(
-                          decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 18, horizontal: 16),
-                            labelText: widget.label,
-                            labelStyle: TextStyle(
-                              color: theme.hintColor,
-                              fontSize: 14,
-                            ),
-                            prefixIcon:
-                                Icon(widget.icon, color: theme.hintColor),
-                            suffixText:
-                                widget.label == "Price" ? " JD" : null,
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: errorText != null
-                                      ? Colors.red
-                                      : theme.dividerColor),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: errorText != null
-                                      ? Colors.red
-                                      : Colors.teal),
-                            ),
+                child: TextField(
+                  controller: controller,
+                  obscureText: widget.isPassword ? _obscureText : false,
+                  cursorColor: Colors.black,
+                  onEditingComplete: () {
+                    widget.onChanged?.call(controller.text);
+                    validate(controller.text);
+                    focusNode.unfocus();
+                  },
+                  onChanged: (newValue) {
+                    widget.onChanged?.call(newValue);
+                    validate(newValue);
+                  },
+                  maxLines: widget.maxLines,
+                  readOnly: widget.readOnly,
+                  focusNode: focusNode,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: theme.textTheme.bodyMedium!.color,
+                  ),
+                  inputFormatters: widget.label == "Price"
+                      ? [
+                          FilteringTextInputFormatter.allow(
+                            RegExp(r'^\d+(\.\d{0,2})?$'),
                           ),
-                          isEmpty: controller.text.isEmpty,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 6),
-                            child: Text(
-                              controller.text.isEmpty ? '' : controller.text,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: controller.text.isEmpty
-                                    ? theme.hintColor
-                                    : theme.textTheme.bodyMedium!.color,
-                              ),
+                        ]
+                      : [],
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 18, horizontal: 16),
+                    labelText: widget.label,
+                    labelStyle: TextStyle(
+                      color:
+                          focusNode.hasFocus ? Colors.teal : theme.hintColor,
+                      fontSize: 14,
+                    ),
+                    prefixIcon: Icon(
+                      widget.icon,
+                      color:
+                          focusNode.hasFocus ? Colors.teal : theme.hintColor,
+                    ),
+                    suffixIcon: widget.isPassword
+                        ? IconButton(
+                            icon: Icon(
+                              _obscureText
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              color: focusNode.hasFocus
+                                  ? Colors.teal
+                                  : theme.hintColor,
                             ),
-                          ),
-                        ),
-                      )
-                    : TextField(
-                        controller: controller,
-                        cursorColor: Colors.black,
-                        onEditingComplete: () {
-                          widget.onChanged?.call(controller.text);
-                          validate(controller.text);
-                          focusNode.unfocus();
-                        },
-                        onChanged: (newValue) {
-                          widget.onChanged?.call(newValue);
-                          validate(newValue);
-                        },
-                        maxLines: widget.maxLines,
-                        readOnly: widget.readOnly,
-                        onTap: () {
-                          if (widget.readOnly) {
-                            FocusScope.of(context).requestFocus(FocusNode());
-                          } else {
-                            widget.onTap?.call();
-                            WidgetsBinding.instance.addPostFrameCallback((_) {
-                              Scrollable.ensureVisible(
-                                context,
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeInOut,
-                                alignment: 0.1,
-                              );
-                            });
-                          }
-                        },
-                        focusNode: focusNode,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: theme.textTheme.bodyMedium!.color,
-                        ),
-                        inputFormatters: widget.label == "Price"
-                            ? [
-                                FilteringTextInputFormatter.allow(
-                                  RegExp(r'^\d+(\.\d{0,2})?$'),
-                                ),
-                              ]
-                            : [],
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 18, horizontal: 16),
-                          labelText: widget.label,
-                          labelStyle: TextStyle(
-                            color: focusNode.hasFocus
-                                ? Colors.teal
-                                : theme.hintColor,
-                            fontSize: 14,
-                          ),
-                          prefixIcon: Icon(
-                            widget.icon,
-                            color: focusNode.hasFocus
-                                ? Colors.teal
-                                : theme.hintColor,
-                          ),
-                          suffixText:
-                              widget.label == "Price" ? " JD" : null,
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: errorText != null
-                                  ? Colors.red
-                                  : theme.dividerColor,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: errorText != null
-                                  ? Colors.red
-                                  : Colors.teal,
-                            ),
-                          ),
-                        ),
+                            onPressed: () {
+                              setState(() {
+                                _obscureText = !_obscureText;
+                              });
+                            },
+                          )
+                        : null,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: errorText != null
+                            ? Colors.red
+                            : theme.dividerColor,
                       ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color:
+                            errorText != null ? Colors.red : Colors.teal,
+                      ),
+                    ),
+                  ),
+                ),
               ),
               if (errorText != null)
                 Positioned(

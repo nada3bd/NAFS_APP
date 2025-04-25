@@ -4,8 +4,7 @@ import 'package:grad_app/cubit/chatlistcubit.dart';
 import 'package:grad_app/cubit/feedbackcubit.dart';
 import 'package:grad_app/cubit/postscubit.dart';
 import 'package:grad_app/cubit/themecubit.dart';
-import 'package:grad_app/models/doctorprofile.dart';
-import 'package:grad_app/views/doctorinformationspage.dart';
+import 'package:grad_app/views/home_page.dart';
 
 
 void main() {
@@ -38,17 +37,7 @@ class NafsApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: currentTheme,
-          home:   DoctorInformationsPage(doctorProfile: DoctorProfile(
-            image: 'assets/images/doctor1.jpg',
-            name: 'Dr.Nada Abu Al - Halaweh',
-            specialization: 'Cardiologist',
-            rating: 4, location: 'Cairo, Egypt', feedback: [], avatarIcon: '', aboutMe: '', sessionDuration: '', sessionPrice: '',
-
-            
-          )
-          
-            ,),
-           
+          home:   const HomePage(),
         );
       },
     );

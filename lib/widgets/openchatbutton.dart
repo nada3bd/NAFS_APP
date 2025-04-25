@@ -4,7 +4,7 @@ import 'package:grad_app/cubit/chatcubit.dart';
 import 'package:grad_app/models/chatpage.dart';
 import 'package:grad_app/views/chatpage.dart';
 import 'package:grad_app/views/doctorinformationspage.dart';
-import 'package:grad_app/widgets/gotochat.dart';
+import 'package:grad_app/widgets/theme_button.dart';
 
 class OpenChatButton extends StatelessWidget {
   const OpenChatButton({

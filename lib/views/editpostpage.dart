@@ -4,7 +4,7 @@ import 'package:grad_app/cubit/postscubit.dart';
 import 'package:grad_app/models/postsmodel.dart';
 import 'package:grad_app/widgets/actionbutton.dart';
 import 'package:grad_app/widgets/actionbuttonfeedback.dart';
-import 'package:grad_app/widgets/custompostappbar.dart';
+import 'package:grad_app/widgets/customtoappbar.dart';
 import 'package:grad_app/widgets/themewriteeditpost.dart';
 
 class EditPostPage extends StatefulWidget {
