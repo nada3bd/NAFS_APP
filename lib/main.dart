@@ -4,8 +4,9 @@ import 'package:grad_app/cubit/chatlistcubit.dart';
 import 'package:grad_app/cubit/feedbackcubit.dart';
 import 'package:grad_app/cubit/postscubit.dart';
 import 'package:grad_app/cubit/themecubit.dart';
-import 'package:grad_app/views/home_page.dart';
-
+import 'package:grad_app/cubit/vedio_cubit.dart';
+//import 'package:grad_app/views/home_page.dart';
+import 'package:grad_app/views/vedio_page.dart';
 
 void main() {
   runApp(
@@ -20,7 +21,10 @@ void main() {
         BlocProvider<ThemeCubit>(
           create: (_) => ThemeCubit(),
         ),
-         BlocProvider(create: (_) => ChatListCubit()),
+        BlocProvider(create: (_) => ChatListCubit()),
+        BlocProvider<VideoCubit>(
+          create: (_) => VideoCubit(),
+        ),
       ],
       child: const NafsApp(),
     ),
@@ -31,16 +35,15 @@ class NafsApp extends StatelessWidget {
   const NafsApp({super.key});
 
   @override
-    Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return BlocBuilder<ThemeCubit, ThemeData>(
       builder: (context, currentTheme) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: currentTheme,
-          home:   const HomePage(),
+          home: const VideoListPage(),
         );
       },
     );
   }
-
 }
