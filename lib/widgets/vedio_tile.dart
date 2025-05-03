@@ -16,21 +16,20 @@ class VideoTile extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: Image.network(video.thumbnailUrl,
-                width: 80, height: 80, fit: BoxFit.cover),
-              
+            child: Image.network(video.thumbnailUrl, width: 80, height: 80, fit: BoxFit.cover),
           ),
           const Icon(Icons.play_circle, color: Colors.white, size: 36),
         ],
       ),
-      title: Text(
-        video.title,
-        style: const TextStyle(fontWeight: FontWeight.bold),
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
+      title: Text(video.title, style: const TextStyle(fontWeight: FontWeight.bold), maxLines: 1, overflow: TextOverflow.ellipsis),
+      subtitle: Row(
+        children: [
+          const Icon(Icons.timer, size: 16, color: Colors.grey),
+          const SizedBox(width: 4),
+          Text(video.duration),
+        ],
       ),
-      subtitle: Text("${video.duration} min"),
-      onTap: onTap, 
+      onTap: onTap,
     );
   }
 }

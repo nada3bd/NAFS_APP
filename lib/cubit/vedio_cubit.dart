@@ -1,67 +1,74 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_app/models/vedio_model.dart';
 
-class VideoCubit extends Cubit<List<VideoModel>> {
-  VideoCubit() : super([]);
+abstract class VideoState {}
+class VideoInitial extends VideoState {}
+class VideoLoading extends VideoState {}
+class VideoLoaded extends VideoState {
+  final List<VideoModel> videos;
+  VideoLoaded(this.videos);
+}
+class VideoError extends VideoState {
+  final String message;
+  VideoError(this.message);
+}
 
-  final Dio dio = Dio();
-  final String apiKey = 'AIzaSyDyK7OrLNGUxy85E8qwIuUUT5JpKvJNb-E';
+class VideosCubit extends Cubit<VideoState> {
+  final Dio dio;
+  static const _baseUrl = 'https://www.googleapis.com/youtube/v3';
+  static const _apiKey  = 'AIzaSyDyK7OrLNGUxy85E8qwIuUUT5JpKvJNb-E';
 
-  Future<void> fetchVideos() async {
+  VideosCubit(this.dio) : super(VideoInitial());
+
+  Future<void> fetchByChannelId(String channelId) async {
+    emit(VideoLoading());
     try {
-      final response = await dio.get(
-        'https://www.googleapis.com/youtube/v3/search',
+      final searchResp = await dio.get(
+        '$_baseUrl/search',
         queryParameters: {
+          'key': _apiKey,
+          'channelId': channelId,
           'part': 'snippet',
-          'q': 'therapy', 
+          'order': 'date',
+          'maxResults': 20,
           'type': 'video',
-          'maxResults': 10,
-          'key': apiKey,
-          'relevanceLanguage': 'ar',
         },
       );
+      final items = (searchResp.data['items'] as List)
+          .map((e) => VideoModel.fromJson(e as Map<String, dynamic>))
+          .toList();
 
-      final List data = response.data['items'];
-      List<VideoModel> videos = [];
-
-      for (var item in data) {
-        final videoId = item['id']['videoId'];
-
-        final duration = await fetchVideoDuration(videoId);
-
-        videos.add(
-          VideoModel.fromJson(item, duration),
-        );
+      final ids = items.map((v) => v.id).join(',');
+      final detailsResp = await dio.get(
+        '$_baseUrl/videos',
+        queryParameters: {
+          'key': _apiKey,
+          'id': ids,
+          'part': 'contentDetails',
+        },
+      );
+      final details = detailsResp.data['items'] as List;
+      final durationMap = <String, String>{};
+      for (var item in details) {
+        final id = item['id'] as String;
+        final iso = item['contentDetails']['duration'] as String;
+        durationMap[id] = VideoModel.parseDuration(iso);
       }
 
-      emit(videos);
+      final updated = items
+          .map((v) => v.copyWith(duration: durationMap[v.id] ?? '00:00'))
+          .toList();
+
+      emit(VideoLoaded(updated));
     } catch (e) {
-      emit([]);
+      emit(VideoError(e.toString()));
     }
   }
 
-  Future<String> fetchVideoDuration(String videoId) async {
-    final response = await dio.get(
-      'https://www.googleapis.com/youtube/v3/videos',
-      queryParameters: {
-        'part': 'contentDetails',
-        'id': videoId,
-        'key': apiKey,
-      },
-    );
-
-    final isoDuration = response.data['items'][0]['contentDetails']['duration'];
-    return _parseDuration(isoDuration);
-  }
-
-  String _parseDuration(String iso) {
-    final regex = RegExp(r'PT(?:(\d+)M)?(?:(\d+)S)?');
-    final match = regex.firstMatch(iso);
-
-    final minutes = match?.group(1) ?? '0';
-    final seconds = match?.group(2) ?? '0';
-
-    return '$minutes:${seconds.padLeft(2, '0')}';
-  }
+ 
+  Future<void> fetch() =>
+      fetchByChannelId('UCpuqYFKLkcEryEieomiAv3Q');
+  
+  
 }
