@@ -35,10 +35,9 @@ class EditProfileScreenState extends State<EditProfileScreen> {
               onSurface: Colors.teal,
               surface: Colors.white,
             ),
-            dialogBackgroundColor: Colors.white,
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(foregroundColor: Colors.teal),
-            ),
+            ), dialogTheme: const DialogThemeData(backgroundColor: Colors.white),
           ),
           child: child!,
         );
